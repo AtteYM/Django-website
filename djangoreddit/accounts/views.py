@@ -13,10 +13,13 @@ def signup(request):
             except User.DoesNotExist:
                 user = User.objects.create_user(request.POST['username'], password=request.POST['password1'])
                 login(request, user)
-                return render(request, 'accounts/signup.html')
+                return render(request, 'accounts/home.html')
 
         else:
             return render(request, 'accounts/signup.html', {'error':'Passwords didn\'t match'})
         return render(request, 'accounts/signup.html')
     else:
         return render(request, 'accounts/signup.html')
+
+def home(request):
+    return render(request, 'accounts/home.html')
