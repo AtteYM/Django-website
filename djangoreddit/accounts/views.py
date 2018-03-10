@@ -21,5 +21,18 @@ def signup(request):
     else:
         return render(request, 'accounts/signup.html')
 
+def loginview(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return render(request, 'accounts/home.html')
+        else:
+            return render(request, 'accounts/login.html', {'error':'Username and Password didn\'t match'})
+    else:
+        return render(request, 'accounts/login.html')
+
 def home(request):
     return render(request, 'accounts/home.html')

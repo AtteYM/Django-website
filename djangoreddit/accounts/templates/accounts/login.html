@@ -30,7 +30,34 @@
       </div>
     </nav>
 
-    <h1 class="text-center"> Welcome to reddit clone website! </h1>
+    <h1 class="text-center"> Login </h1>
+
+    <br />
+    <br />
+
+    <div class="container text-center">
+
+      {% if error %}
+      <font color="red">{{ error }}</font>
+      <br />
+      <br />
+      {% endif %}
+
+      <form method="POST" action="{% url 'accounts:login' %}">
+        {% csrf_token %}
+        Username:
+        <br />
+        <input type="text" name="username" />
+        <br />
+        Password:
+        <br />
+        <input type="password" name="password" />
+        <br />
+        <br />
+        <input type="submit" value="Login" />
+      <form/>
+
+    </div>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
