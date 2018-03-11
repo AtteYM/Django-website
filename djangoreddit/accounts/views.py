@@ -13,7 +13,7 @@ def signup(request):
             except User.DoesNotExist:
                 user = User.objects.create_user(request.POST['username'], password=request.POST['password1'])
                 login(request, user)
-                return render(request, 'accounts/home.html')
+                return render(request, 'posts/home.html')
 
         else:
             return render(request, 'accounts/signup.html', {'error':'Passwords didn\'t match'})
@@ -30,11 +30,8 @@ def loginview(request):
             login(request, user)
             if 'next' in request.POST:
                  return redirect(request.POST['next'])
-            return render(request, 'accounts/home.html')
+            return render(request, 'posts/home.html')
         else:
             return render(request, 'accounts/login.html', {'error':'Username and Password didn\'t match'})
     else:
         return render(request, 'accounts/login.html')
-
-def home(request):
-    return render(request, 'accounts/home.html')
