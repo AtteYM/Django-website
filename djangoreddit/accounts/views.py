@@ -29,8 +29,7 @@ def loginview(request):
         if user is not None:
             login(request, user)
             if 'next' in request.POST:
-                if request.POST['next'] is not None:
-                     return redirect(request.POST['next'])
+                 return redirect(request.POST['next'])
             return render(request, 'accounts/home.html')
         else:
             return render(request, 'accounts/login.html', {'error':'Username and Password didn\'t match'})
