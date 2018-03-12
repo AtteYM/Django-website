@@ -33,7 +33,7 @@
             </li>
             <form id="logout" method="POST" action="{% url 'accounts:logout' %}">
               {% csrf_token %}
-              <input type="hidden"
+              <input type="hidden">
             </form>
           </ul>
           {% else %}

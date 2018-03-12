@@ -8,6 +8,8 @@
 <br/>
 
 <div class="container text-center">
+
+  {% if user.is_authenticated %}
   <hr />
   {% for post in posts.all %}
   <h3>{{ post.title }}</h3>
@@ -18,6 +20,19 @@
   <br/>
   <hr />
   {% endfor %}
+  {% else %}
+  <hr />
+  <h3>You need to be logged in to read posts</h3>
+  Sign up or login see all of the posts
+  <br/>
+  <a href="accounts/login">Login</a>
+  or
+  <a href="accounts/signup">Sign up</a>
+  <br/>
+  <br/>
+  <hr />
+  {% endif %}
+
 </div>
 
 {% endblock %}

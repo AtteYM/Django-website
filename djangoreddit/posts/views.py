@@ -22,5 +22,5 @@ def create(request):
         return render(request, 'posts/create.html')
 
 def home(request):
-    posts = Post.objects.order_by('votes_total')
+    posts = Post.objects.order_by('votes_total', '-pub_date')
     return render(request, 'posts/home.html', {'posts':posts})
