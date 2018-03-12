@@ -7,7 +7,11 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
+    <style>
+      body{
+        background-color: #e6e6e6;
+      }
+    </style>
     <title>Reddit Clone</title>
   </head>
   <body>
@@ -39,6 +43,7 @@
     <br/>
 
     <div class="container text-center">
+      <hr />
       {% for post in posts.all %}
       <h3>{{ post.title }}</h3>
       {{ post.url }}
@@ -46,6 +51,7 @@
       {{ post.pub_date }} by {{ post.author.username }}
       <br/>
       <br/>
+      <hr />
       {% endfor %}
     </div>
 
