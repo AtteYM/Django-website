@@ -26,23 +26,64 @@ def home(request):
     posts = Post.objects.order_by('-votes_total', '-pub_date')
     return render(request, 'posts/home.html', {'posts':posts})
 
+@login_required
 def upvote(request, pk):
     if request.method == 'POST':
         post = Post.objects.get(pk=pk)
         post.votes_total += 1
         post.save()
-        return redirect( 'home')
+        return redirect(request.META['HTTP_REFERER'])
     else:
         return redirect( 'home')
 
+@login_required
 def downvote(request, pk):
         if request.method == 'POST':
             post = Post.objects.get(pk=pk)
             post.votes_total -= 1
             post.save()
-            return redirect('home')
+            return redirect(request.META['HTTP_REFERER'])
         else:
             return redirect('home')
+
+@login_required
+def allposts(request, author):
+        posts = Post.objects.filter(author=author).order_by('-votes_total', '-pub_date')
+        return render(request, 'posts/allposts.html', {'posts':posts})
+
+@login_required
+def update(request, pk):
+    post = Post.objects.get(pk=pk)
+    if request.user.username == post.author.username:
+        if request.method == 'POST':
+            if request.POST['title'] and request.POST['url']:
+                qpost = Post.objects.filter(pk=pk)
+                qpost.update(title = request.POST['title'])
+                qpost.update(url = request.POST['url'])
+                return redirect('home')
+            else:
+                return render(request, 'posts/update.html', {'post':post})
+        else:
+            return render(request, 'posts/update.html', {'post':post})
+    else:
+        return redirect('home')
+
+@login_required
+def delete(request, pk):
+    post = Post.objects.get(pk=pk)
+    if request.user.username == post.author.username:
+        if request.method == 'POST':
+            post.delete()
+            return redirect(request.META['HTTP_REFERER'])
+        else:
+            return redirect('home')
+    else:
+        return redirect('home')
+
+@login_required
+def mypage(request):
+    posts = Post.objects.filter(author=request.user).order_by('-votes_total', '-pub_date')
+    return render(request, 'posts/allposts.html', {'posts':posts})
 
 #def downvote(request, pk):
 #    posts = Post.objects.get(pk=pk)

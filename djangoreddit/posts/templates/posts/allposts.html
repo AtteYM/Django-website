@@ -2,29 +2,56 @@
 
 {% block content %}
 
-
-<h1 class="text-center"> Welcome to Reddit Clone home page! </h1>
-<br/>
+<h1 class="text-center"> Welcome to {{ posts.first.author.username }}'s page! </h1>
 <br/>
 <br/>
 
+<div class="container">
+<a href="{% url 'home' %}"><span class="oi oi-arrow-left" title="Back" aria-hidden="true" style="color:black"> Home</span></a>
+</div>
 <div class="container text-center">
 
   {% if user.is_authenticated %}
   <hr />
+  {% if request.user.username == posts.first.author.username %}
   {% for post in posts.all %}
   <br/>
   <table style="width:100%">
     <tr>
-      {% if request.user.username == post.author.username %}
-      {% endif %}
-      {% if request.user.username == post.author.username %}
       <td class="text-center" style="width:10%">
           <span class="oi oi-caret-top" title="caret-top" aria-hidden="true" style="color:#808080"></span><br/>
         {{ post.votes_total }}<br/>
           <span class="oi oi-caret-bottom" title="caret-bottom" aria-hidden="true" style="color:#808080"></span><br/>
+
       </td>
-      {% else %}
+      <td style="text-align:center">
+      <h3>{{ post.title }}</h3>
+      {{ post.url }}
+      <br/>
+      {{ post.pub_date_pretty }} by {{ post.author.username }}
+
+
+      </td>
+      <td style="width:10%; text-align:center">
+
+        <a href="{% url 'posts:update' post.id %}" class="btn btn-secondary btn-sm" >Update</a><br/><br/>
+        <a href="#" class="btn btn-secondary btn-sm" onclick="document.getElementById('delete{{ post.id }}').submit()">Delete</a>
+        <form id="delete{{ post.id }}" method="POST" action="{% url 'posts:delete' post.id %}">
+          {% csrf_token %}
+          <input type="hidden">
+        </form>
+
+      </td>
+    </tr>
+  </table>
+  <br/>
+  <hr />
+  {% endfor %}
+  {% else %}
+  {% for post in posts.all %}
+  <br/>
+  <table style="width:100%">
+    <tr>
       <td class="text-center" style="width:10%">
         <a href="#" onclick="document.getElementById('upvote{{ post.id }}').submit()">
           <span class="oi oi-caret-top" title="caret-top" aria-hidden="true" style="color:black"></span></a><br/>
@@ -39,13 +66,13 @@
           {% csrf_token %}
           <input type="hidden">
         </form><br/>
+
       </td>
-      {% endif %}
       <td style="text-align:center">
       <h3>{{ post.title }}</h3>
       {{ post.url }}
       <br/>
-      {{ post.pub_date_pretty }} by <a href="{% url 'posts:allposts' post.author_id %}" hover="color:blue" style="color:black; text-decoration: underline">{{ post.author.username }}</a>
+      {{ post.pub_date_pretty }} by {{ post.author.username }}
 
 
       </td>
@@ -55,15 +82,7 @@
   <br/>
   <hr />
   {% endfor %}
-
-  {% else %}
-  <hr />
-  <h3>You need to be logged in to read posts</h3>
-  <a href="accounts/signup">Sign up</a>
-  or <a href="accounts/login">Log in</a> to see all of the posts
-  <br/>
-  <br/>
-  <hr />
+  {% endif %}
   {% endif %}
 
 </div>

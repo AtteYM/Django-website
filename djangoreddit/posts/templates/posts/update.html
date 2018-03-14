@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1 class="text-center"> Update Post </h1>
+
+<br />
+<br />
+<div class="container">
+<a href="{% url 'posts:allposts' post.author_id %}"><span class="oi oi-arrow-left" title="Back" aria-hidden="true" style="color:black"> Back</span></a>
+</div>
+<div class="container text-center">
+
+    <hr />
+    <h3>{{ post.title }}</h3>
+    {{ post.url }}
+    <br/>
+    {{ post.pub_date_pretty }} by {{ post.author.username }}
+    <hr />
+
+  <form method="POST" action="{% url 'posts:update' post.id %}">
+    {% csrf_token %}
+
+    New title:
+    <br />
+    <input type="text" name="title" />
+    <br />
+    New URL:
+    <br />
+    <input type="text" name="url" />
+    <br />
+    <br />
+    <input class="btn btn-secondary btn-sm" type="submit" value="Update Post" />
+  <form/>
+
+</div>
+
+{% endblock %}
