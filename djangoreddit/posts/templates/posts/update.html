@@ -20,7 +20,9 @@
 
   <form method="POST" action="{% url 'posts:update' post.id %}">
     {% csrf_token %}
-
+    You can choose to update only one or both of the following
+    <br />
+    <br />
     New title:
     <br />
     <input type="text" name="title" />

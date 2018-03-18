@@ -56,11 +56,13 @@ def update(request, pk):
     post = Post.objects.get(pk=pk)
     if request.user.username == post.author.username:
         if request.method == 'POST':
-            if request.POST['title'] and request.POST['url']:
+            if request.POST['title'] or request.POST['url']:
                 qpost = Post.objects.filter(pk=pk)
-                qpost.update(title = request.POST['title'])
-                qpost.update(url = request.POST['url'])
-                return redirect('home')
+                if request.POST['title']:
+                    qpost.update(title = request.POST['title'])
+                if request.POST['url']:
+                    qpost.update(url = request.POST['url'])
+                return redirect(request.META['HTTP_REFERER'])
             else:
                 return render(request, 'posts/update.html', {'post':post})
         else:
